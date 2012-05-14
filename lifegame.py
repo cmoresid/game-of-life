@@ -46,9 +46,13 @@ class GameOfLife:
 					done = True
 				if event.type == pygame.MOUSEBUTTONDOWN:
 					pos = pygame.mouse.get_pos()
-					
-					if self.start_button.get_bounding_rect().collidepoint(pos):
+				
+					if self.start_button.get_rect().move(20,0).collidepoint(pos):
 						start = False if start else True
+
+					if self.clear_button.get_rect().move(130,0).collidepoint(pos):
+						start = False
+						self.model.clear_world()	
 
 					y = pos[0] // (self.cell_size+self.margin)
 					x = pos[1] // (self.cell_size+self.margin)

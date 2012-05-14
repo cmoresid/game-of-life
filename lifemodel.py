@@ -31,6 +31,11 @@ class LifeModel:
 	def increment_gen_count(self):
 		self.generation = self.generation + 1
 		
+	def clear_world(self):
+		self.currentgen_grid.clear()
+		self.nextgen_grid.clear()
+		self.generation = 1
+
 	def next_generation(self):
 		for x in range(self.width):
 			for y in range(self.height):

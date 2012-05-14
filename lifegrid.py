@@ -9,6 +9,9 @@ class LifeGrid:
 	def toggle_xy(self, x, y):
 		self.grid[y, x] = False if self.grid[y,x] else True
 		
+	def clear(self):
+		self.grid.fill(False)
+
 	def get_xy(self, x, y):
 		return self.grid[y, x]
 		
