@@ -1,5 +1,6 @@
 import pygame
 from lifemodel import LifeModel
+from lifeconstants import *
 
 black = (0,0,0)
 white = (255,255,255)
@@ -35,7 +36,6 @@ class GameOfLife:
 		self.clock = pygame.time.Clock()
 		self.speed = 12
 	
-		
 	def game_loop(self):
 		done = False
 		start = False
