@@ -1,14 +1,33 @@
-import numpy as np
 from lifegrid import LifeGrid
 
 class LifeModel:
+	"""The main model that contains the games
+	   logic. The model contains two LifeGrid
+	   objects: one repesents the current generation
+	   of cells and the other represents the next
+	   generation. The 23/3 rules are applied to
+	   the current generation grid and the results are
+	   placed in the next generation grid. The roles
+	   of the grids alternate with each call to
+	   the next_generation method."""
 	def __init__(self,width,height):
+		"""Initializes the model with the specified
+		   width and height (i.e. the number of cells
+		   horizontally and vertically).
+		"""
+		# The two LifeGrids used to represent the world.
 		self.lifegrid1 = LifeGrid(width, height)
 		self.lifegrid2 = LifeGrid(width, height)
+		# Variables that represent the current
+		# role of each grid. These roles alternate
+		# with each turn.
 		self.currentgen_grid = self.lifegrid1
 		self.nextgen_grid = self.lifegrid2
+		# Set the dimensions of the grid.
 		self.width = width
 		self.height = height
+		# Represents which generation the world is
+		# currently on.
 		self.generation = 1
 	
 	def switch_grid_roles(self):
@@ -39,8 +58,11 @@ class LifeModel:
 	def next_generation(self):
 		for x in range(self.width):
 			for y in range(self.height):
+				# Finds the number of immediate surrounding
+				# cells that are alive.
 				nbrs = self.find_neighbours(x, y)
-				
+				# Apply the 23/3 rules to the current grid
+				# and set results in the next generation grid.
 				if self.currentgen_grid.get_xy(x,y):
 					if (nbrs == 2 or nbrs == 3):
 						self.nextgen_grid.set_xy(x, y, True)
@@ -52,7 +74,12 @@ class LifeModel:
 					else:
 						self.nextgen_grid.set_xy(x, y, False)
 		
+		# Increment the generation count.
 		self.increment_gen_count()
+		# Now switch the roles of the grids.
+		# i.e. the grid1 now is used as the current
+		# generation and grid2 is now used as the
+		# next generation.
 		self.switch_grid_roles()
 		
 	def find_neighbours(self, x, y):
@@ -73,26 +100,8 @@ class LifeModel:
 			num = num + 1
 			
 		return num			
-		
-	def print_world_debug(self):
-		print "Current Board:"
-		self.currentgen_grid.print_grid()
-		print "Next Gen:"
-		self.nextgen_grid.print_grid()
 	
 	def print_world(self):
 		print "Generation: ", self.generation
 		self.currentgen_grid.print_grid()
-
-if __name__ == "__main__":
-	l = LifeModel(10, 10)
-	l.set_seed(5, 4)
-	l.set_seed(4, 5)
-	l.set_seed(5, 5)
-	l.set_seed(6, 5)
-	
-	for i in range(10):
-		print ""
-		l.print_world()
-		l.next_generation()
 	
