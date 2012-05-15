@@ -31,6 +31,10 @@ class LifeModel:
 		self.generation = 1
 	
 	def switch_grid_roles(self):
+		"""Switches the roles of each LifeGrid. All
+		   this does is change the nextgen_grid and
+		   currentgen_grid variables around.
+		"""
 		if (self.nextgen_grid == self.lifegrid1):
 			self.nextgen_grid = self.lifegrid2
 			self.currentgen_grid = self.lifegrid1
@@ -39,23 +43,44 @@ class LifeModel:
 			self.currentgen_grid = self.lifegrid2
 	
 	def get_nextgen_grid(self):
+		"""Retrieves the reference to the nextgen_grid."""
 		return self.nextgen_grid
 		
 	def set_seed(self, x, y):
+		"""Toggles the specific cell within the
+		   LifeModel.
+		"""
 		self.currentgen_grid.toggle_xy(x, y)
 
 	def get_currentgrid_xy(self, x, y):
+		"""Returns the value in the currengen_grid
+		   LifeGrid at the specified location.
+		"""
 		return self.currentgen_grid.get_xy(x, y)
 	
 	def increment_gen_count(self):
+		"""Increments the generation count. It
+		   is called at the end of next_generation."""
 		self.generation = self.generation + 1
 		
 	def clear_world(self):
+		"""Clears the state of the world. All the
+		   LifeGrids are reset to False and starts
+		   back at generation 1.
+		"""
 		self.currentgen_grid.clear()
 		self.nextgen_grid.clear()
 		self.generation = 1
 
 	def next_generation(self):
+		"""Goes through each of the cells in the
+		   currentgen_grid. For each cell, all of
+		   its neighbours are found and then the 23/3
+		   rules are applied. The results are placed
+		   within the nextgen_grid. Generation count
+		   is incremented, then the roles of the LifeGrids
+		   are swapped.
+		"""
 		for x in range(self.width):
 			for y in range(self.height):
 				# Finds the number of immediate surrounding
@@ -83,6 +108,11 @@ class LifeModel:
 		self.switch_grid_roles()
 		
 	def find_neighbours(self, x, y):
+		"""Searches the adjacent cells (8 in total)
+           and checks to see if the cell is alive
+           or dead. Returns the number of live,
+           neighbouring cells.		   
+		"""
 		i = -1
 		num = 0
 		
@@ -102,6 +132,7 @@ class LifeModel:
 		return num			
 	
 	def print_world(self):
+		"""Prints the world. Used in debugging."""
 		print "Generation: ", self.generation
 		self.currentgen_grid.print_grid()
 	
